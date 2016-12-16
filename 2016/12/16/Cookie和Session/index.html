@@ -4,14 +4,30 @@
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>ISSAC</title>
+  <title>Cookie和Session | ISSAC</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="ISSAC">
-<meta property="og:url" content="http://yoursite.com/index.html">
+  <meta name="description" content="众所周知，HTTP 是一个无状态协议，所以客户端每次发出请求时，下一次请求无法得知上一次请求所包含的状态数据，如何能把一个用户的状态数据关联起来呢？
+比如在淘宝的某个页面中，你进行了登陆操作。当你跳转到商品页时，服务端如何知道你是已经登陆的状态？
+cookie首先产生了 cookie 这门技术来解决这个问题，cookie 是 http 协议的一部分，它的处理分为如下几步：
+
+服务器向客户端发送 c">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Cookie和Session">
+<meta property="og:url" content="http://yoursite.com/2016/12/16/Cookie和Session/index.html">
 <meta property="og:site_name" content="ISSAC">
+<meta property="og:description" content="众所周知，HTTP 是一个无状态协议，所以客户端每次发出请求时，下一次请求无法得知上一次请求所包含的状态数据，如何能把一个用户的状态数据关联起来呢？
+比如在淘宝的某个页面中，你进行了登陆操作。当你跳转到商品页时，服务端如何知道你是已经登陆的状态？
+cookie首先产生了 cookie 这门技术来解决这个问题，cookie 是 http 协议的一部分，它的处理分为如下几步：
+
+服务器向客户端发送 c">
+<meta property="og:updated_time" content="2016-12-16T03:37:06.463Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="ISSAC">
+<meta name="twitter:title" content="Cookie和Session">
+<meta name="twitter:description" content="众所周知，HTTP 是一个无状态协议，所以客户端每次发出请求时，下一次请求无法得知上一次请求所包含的状态数据，如何能把一个用户的状态数据关联起来呢？
+比如在淘宝的某个页面中，你进行了登陆操作。当你跳转到商品页时，服务端如何知道你是已经登陆的状态？
+cookie首先产生了 cookie 这门技术来解决这个问题，cookie 是 http 协议的一部分，它的处理分为如下几步：
+
+服务器向客户端发送 c">
   
     <link rel="alternative" href="/atom.xml" title="ISSAC" type="application/atom+xml">
   
@@ -195,9 +211,7 @@
 	</div>
 </nav>
 
-      <div class="body-wrap">
-  
-    <article id="post-Cookie和Session" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-Cookie和Session" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
       <a href="/2016/12/16/Cookie和Session/" class="article-date">
@@ -213,12 +227,23 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/16/Cookie和Session/">Cookie和Session</a>
+    <h1 class="article-title" itemprop="name">
+      Cookie和Session
     </h1>
   
 
       </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
       
     
     <div class="article-entry" itemprop="articleBody">
@@ -299,90 +324,40 @@
       
     </div>
     
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li></ul>
-	</div>
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
   </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/12/09/ajax/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Ajax</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
   
 </article>
 
 
-
-
-
-
-
-
-
-  
-    <article id="post-ajax" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/12/09/ajax/" class="article-date">
-  	<time datetime="2016-12-09T07:18:25.000Z" itemprop="datePublished">2016-12-09</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/09/ajax/">Ajax</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="1、简介："><a href="#1、简介：" class="headerlink" title="1、简介："></a>1、简介：</h1><blockquote>
-<p>AJAX 是一种在无需重新加载整个网页的情况下，能够更新部分网页的技术。</p>
-</blockquote>
-<p>ajax的全称是AsynchronousJavascript+XML。<br>异步传输+js+xml。<br>所谓异步，在这里简单地解释就是：向服务器发送请求的时候，我们不必等待结果，而是可以同时做其他的事情，等到有了结果我们可以再来处理这个事。（当然，在其他语境下这个解释可能就不对了）<br>这个很重要，如果不是这样的话，我们点完按钮，页面就会死在那里，其他的数据请求不会往下走了。这样比等待刷新似乎更加讨厌。<br>（虽然提供异步通讯功能的组件默认情况下都是异步的，但它们也提供了同步选项，如果你好奇把那个选项改为false的话，你的页面就会死在那里）<br>xml只是一种数据格式，在这件事里并不重要，我们在更新一行字的时候理论上说不需要这个格式，但如果我们更新很多内容，那么格式化的数据可以使我们有条理地去实现更新。</p>
-<p>现在大部分人其实是用JSON这种格式来代替XML的，因为前者更加简洁，据说目前的解析速度也更快。多快好省，能省则省啊。</p>
-<p><strong>总结</strong>：只要是JS调用异步通讯组件并使用格式化的数据来更新web页面上的内容或操作过程，那么我们用的方法就可算是AJAX。</p>
-<h2 id="什么是-AJAX-？"><a href="#什么是-AJAX-？" class="headerlink" title="什么是 AJAX ？"></a>什么是 AJAX ？</h2><p>AJAX = 异步 JavaScript 和 XML。<br>AJAX 是一种用于创建快速动态网页的技术。<br>通过在后台与服务器进行少量数据交换，AJAX 可以使网页实现异步更新。这意味着可以在不重新加载整个网页的情况下，对网页的某部分进行更新。<br>传统的网页（不使用 AJAX）如果需要更新内容，必需重载整个网页面。<br>有很多使用 AJAX 的应用程序案例：新浪微博、Google 地图、开心网等等。</p>
-<h1 id="2、AJAX-创建-XMLHttpRequest-对象"><a href="#2、AJAX-创建-XMLHttpRequest-对象" class="headerlink" title="2、AJAX-创建 XMLHttpRequest 对象"></a>2、AJAX-创建 XMLHttpRequest 对象</h1><p>XMLHttpRequest 对象是AJAX的基础<br>所有现代浏览器均支持 XMLHttpRequest 对象（IE5 和 IE6 使用 ActiveXObject）。<br>XMLHttpRequest 用于在后台与服务器交换数据。这意味着可以在不重新加载整个网页的情况下，对网页的某部分进行更新。</p>
-<h1 id="3、AJAX-向服务器发送请求"><a href="#3、AJAX-向服务器发送请求" class="headerlink" title="3、AJAX - 向服务器发送请求"></a>3、AJAX - 向服务器发送请求</h1><p>XMLHttpRequest 对象用于和服务器交换数据。</p>
-<p>向服务器发送请求<br>如需将请求发送到服务器，我们使用 XMLHttpRequest 对象的 open() 和 send() 方法：<br>xmlhttp.open(“GET”,”test1.txt”,true);<br>xmlhttp.send();</p>
-<h2 id="GET-还是-POST？"><a href="#GET-还是-POST？" class="headerlink" title="GET 还是 POST？"></a>GET 还是 POST？</h2><p>与 POST 相比，GET 更简单也更快，并且在大部分情况下都能用。<br>然而，在以下情况中，请使用 POST 请求：<br>无法使用缓存文件（更新服务器上的文件或数据库）<br>向服务器发送大量数据（POST 没有数据量限制）<br>发送包含未知字符的用户输入时，POST 比 GET 更稳定也更可靠</p>
-<h2 id="例子1："><a href="#例子1：" class="headerlink" title="例子1："></a>例子1：</h2><p>AJAX与后台交互后，动态更新页面数据：<br>在回调函数里设置元素的属性，即可实现将服务器返回的内容动态展现到页面上<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">Ajax.Post(&quot;openOrgUpdate&quot;,data,function(result)&#123;</div><div class="line">var obj = JSON.parse(result);</div><div class="line">var msg = obj.msg;</div><div class="line">var orgCodes = obj.orgCodes;</div><div class="line">if(orgCodes.length &gt; 0)&#123;</div><div class="line">$(&quot;#orgCodes&quot;).text(orgCodes);</div><div class="line">$(&quot;#orgCodes&quot;).attr(&quot;value&quot;,orgCodes);</div></pre></td></tr></table></figure></p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li></ul>
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
 	</div>
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
 
 
 
@@ -391,70 +366,6 @@
 
 
 
-
-  
-    <article id="post-hellowHexo" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/12/09/hellowHexo/" class="article-date">
-  	<time datetime="2016-12-09T03:05:47.000Z" itemprop="datePublished">2016-12-09</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/09/hellowHexo/">hellowHexo</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="HELLO-HEXO"><a href="#HELLO-HEXO" class="headerlink" title="HELLO HEXO"></a>HELLO HEXO</h1><blockquote>
-<p>不努力怎么幸运 —黎峻滔</p>
-</blockquote>
-<p>这是我的第一篇HEXO博客~<br>今后加油吧！</p>
-<p>==Isaac==</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/随笔/">随笔</a></li></ul>
-	</div>
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-  
 </div>
       <footer id="footer">
   <div class="outer">
@@ -478,8 +389,8 @@
 		fancybox: true,
 		mathjax: true,
 		animate: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
