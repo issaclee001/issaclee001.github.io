@@ -4,27 +4,21 @@
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>Ajax | ISSAC</title>
+  <title>一个棘手问题的解决 | ISSAC</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1、简介：
-AJAX 是一种在无需重新加载整个网页的情况下，能够更新部分网页的技术。
-
-ajax的全称是AsynchronousJavascript+XML。异步传输+js+xml。所谓异步，在这里简单地解释就是：向服务器发送请求的时候，我们不必等待结果，而是可以同时做其他的事情，等到有了结果我们可以再来处理这个事。（当然，在其他语境下这个解释可能就不对了）这个很重要，如果不是这样的话，我们点完按">
+  <meta name="description" content="今天遇到一个棘手的问题
+1、问题背景：首先发现，很多售后单在平台自动审核为退款后，处理方式为退货，审核方为到家客服，且退款成功状态为退货的退款成功114初步判断有可能是平台自动审核后sql未更新主表，但审核人之类的字段又是平台自动审核（审核后的sql才可能更新的）排查了自动审核worker的代码，发现没有问题，审核后的update主表的sql也是执行了的进而又发现有许多多次提交退款的售后单，尤其是">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Ajax">
-<meta property="og:url" content="http://yoursite.com/2016/12/09/ajax/index.html">
+<meta property="og:title" content="一个棘手问题的解决">
+<meta property="og:url" content="http://yoursite.com/2017/01/20/一个棘手问题的解决/index.html">
 <meta property="og:site_name" content="ISSAC">
-<meta property="og:description" content="1、简介：
-AJAX 是一种在无需重新加载整个网页的情况下，能够更新部分网页的技术。
-
-ajax的全称是AsynchronousJavascript+XML。异步传输+js+xml。所谓异步，在这里简单地解释就是：向服务器发送请求的时候，我们不必等待结果，而是可以同时做其他的事情，等到有了结果我们可以再来处理这个事。（当然，在其他语境下这个解释可能就不对了）这个很重要，如果不是这样的话，我们点完按">
-<meta property="og:updated_time" content="2016-12-09T07:56:57.844Z">
+<meta property="og:description" content="今天遇到一个棘手的问题
+1、问题背景：首先发现，很多售后单在平台自动审核为退款后，处理方式为退货，审核方为到家客服，且退款成功状态为退货的退款成功114初步判断有可能是平台自动审核后sql未更新主表，但审核人之类的字段又是平台自动审核（审核后的sql才可能更新的）排查了自动审核worker的代码，发现没有问题，审核后的update主表的sql也是执行了的进而又发现有许多多次提交退款的售后单，尤其是">
+<meta property="og:updated_time" content="2017-01-20T02:42:02.724Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Ajax">
-<meta name="twitter:description" content="1、简介：
-AJAX 是一种在无需重新加载整个网页的情况下，能够更新部分网页的技术。
-
-ajax的全称是AsynchronousJavascript+XML。异步传输+js+xml。所谓异步，在这里简单地解释就是：向服务器发送请求的时候，我们不必等待结果，而是可以同时做其他的事情，等到有了结果我们可以再来处理这个事。（当然，在其他语境下这个解释可能就不对了）这个很重要，如果不是这样的话，我们点完按">
+<meta name="twitter:title" content="一个棘手问题的解决">
+<meta name="twitter:description" content="今天遇到一个棘手的问题
+1、问题背景：首先发现，很多售后单在平台自动审核为退款后，处理方式为退货，审核方为到家客服，且退款成功状态为退货的退款成功114初步判断有可能是平台自动审核后sql未更新主表，但审核人之类的字段又是平台自动审核（审核后的sql才可能更新的）排查了自动审核worker的代码，发现没有问题，审核后的update主表的sql也是执行了的进而又发现有许多多次提交退款的售后单，尤其是">
   
     <link rel="alternative" href="/atom.xml" title="ISSAC" type="application/atom+xml">
   
@@ -212,11 +206,11 @@ ajax的全称是AsynchronousJavascript+XML。异步传输+js+xml。所谓异步�
 	</div>
 </nav>
 
-      <div class="body-wrap"><article id="post-ajax" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-一个棘手问题的解决" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/12/09/ajax/" class="article-date">
-  	<time datetime="2016-12-09T07:18:25.000Z" itemprop="datePublished">2016-12-09</time>
+      <a href="/2017/01/20/一个棘手问题的解决/" class="article-date">
+  	<time datetime="2017-01-20T02:35:13.000Z" itemprop="datePublished">2017-01-20</time>
 </a>
     </div>
   
@@ -229,7 +223,7 @@ ajax的全称是AsynchronousJavascript+XML。异步传输+js+xml。所谓异步�
         
   
     <h1 class="article-title" itemprop="name">
-      Ajax
+      一个棘手问题的解决
     </h1>
   
 
@@ -238,7 +232,7 @@ ajax的全称是AsynchronousJavascript+XML。异步传输+js+xml。所谓异步�
       <div class="article-info article-info-post">
         
 	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/测试/">测试</a></li></ul>
 	</div>
 
         
@@ -249,18 +243,20 @@ ajax的全称是AsynchronousJavascript+XML。异步传输+js+xml。所谓异步�
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="1、简介："><a href="#1、简介：" class="headerlink" title="1、简介："></a>1、简介：</h1><blockquote>
-<p>AJAX 是一种在无需重新加载整个网页的情况下，能够更新部分网页的技术。</p>
-</blockquote>
-<p>ajax的全称是AsynchronousJavascript+XML。<br>异步传输+js+xml。<br>所谓异步，在这里简单地解释就是：向服务器发送请求的时候，我们不必等待结果，而是可以同时做其他的事情，等到有了结果我们可以再来处理这个事。（当然，在其他语境下这个解释可能就不对了）<br>这个很重要，如果不是这样的话，我们点完按钮，页面就会死在那里，其他的数据请求不会往下走了。这样比等待刷新似乎更加讨厌。<br>（虽然提供异步通讯功能的组件默认情况下都是异步的，但它们也提供了同步选项，如果你好奇把那个选项改为false的话，你的页面就会死在那里）<br>xml只是一种数据格式，在这件事里并不重要，我们在更新一行字的时候理论上说不需要这个格式，但如果我们更新很多内容，那么格式化的数据可以使我们有条理地去实现更新。</p>
-<p>现在大部分人其实是用JSON这种格式来代替XML的，因为前者更加简洁，据说目前的解析速度也更快。多快好省，能省则省啊。</p>
-<p><strong>总结</strong>：只要是JS调用异步通讯组件并使用格式化的数据来更新web页面上的内容或操作过程，那么我们用的方法就可算是AJAX。</p>
-<h2 id="什么是-AJAX-？"><a href="#什么是-AJAX-？" class="headerlink" title="什么是 AJAX ？"></a>什么是 AJAX ？</h2><p>AJAX = 异步 JavaScript 和 XML。<br>AJAX 是一种用于创建快速动态网页的技术。<br>通过在后台与服务器进行少量数据交换，AJAX 可以使网页实现异步更新。这意味着可以在不重新加载整个网页的情况下，对网页的某部分进行更新。<br>传统的网页（不使用 AJAX）如果需要更新内容，必需重载整个网页面。<br>有很多使用 AJAX 的应用程序案例：新浪微博、Google 地图、开心网等等。</p>
-<h1 id="2、AJAX-创建-XMLHttpRequest-对象"><a href="#2、AJAX-创建-XMLHttpRequest-对象" class="headerlink" title="2、AJAX-创建 XMLHttpRequest 对象"></a>2、AJAX-创建 XMLHttpRequest 对象</h1><p>XMLHttpRequest 对象是AJAX的基础<br>所有现代浏览器均支持 XMLHttpRequest 对象（IE5 和 IE6 使用 ActiveXObject）。<br>XMLHttpRequest 用于在后台与服务器交换数据。这意味着可以在不重新加载整个网页的情况下，对网页的某部分进行更新。</p>
-<h1 id="3、AJAX-向服务器发送请求"><a href="#3、AJAX-向服务器发送请求" class="headerlink" title="3、AJAX - 向服务器发送请求"></a>3、AJAX - 向服务器发送请求</h1><p>XMLHttpRequest 对象用于和服务器交换数据。</p>
-<p>向服务器发送请求<br>如需将请求发送到服务器，我们使用 XMLHttpRequest 对象的 open() 和 send() 方法：<br>xmlhttp.open(“GET”,”test1.txt”,true);<br>xmlhttp.send();</p>
-<h2 id="GET-还是-POST？"><a href="#GET-还是-POST？" class="headerlink" title="GET 还是 POST？"></a>GET 还是 POST？</h2><p>与 POST 相比，GET 更简单也更快，并且在大部分情况下都能用。<br>然而，在以下情况中，请使用 POST 请求：<br>无法使用缓存文件（更新服务器上的文件或数据库）<br>向服务器发送大量数据（POST 没有数据量限制）<br>发送包含未知字符的用户输入时，POST 比 GET 更稳定也更可靠</p>
-<h2 id="例子1："><a href="#例子1：" class="headerlink" title="例子1："></a>例子1：</h2><p>AJAX与后台交互后，动态更新页面数据：<br>在回调函数里设置元素的属性，即可实现将服务器返回的内容动态展现到页面上<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">Ajax.Post(&quot;openOrgUpdate&quot;,data,function(result)&#123;</div><div class="line">var obj = JSON.parse(result);</div><div class="line">var msg = obj.msg;</div><div class="line">var orgCodes = obj.orgCodes;</div><div class="line">if(orgCodes.length &gt; 0)&#123;</div><div class="line">$(&quot;#orgCodes&quot;).text(orgCodes);</div><div class="line">$(&quot;#orgCodes&quot;).attr(&quot;value&quot;,orgCodes);</div></pre></td></tr></table></figure></p>
+        <p>今天遇到一个棘手的问题</p>
+<h2 id="1、问题背景："><a href="#1、问题背景：" class="headerlink" title="1、问题背景："></a>1、问题背景：</h2><p>首先发现，很多售后单在平台自动审核为退款后，处理方式为退货，审核方为到家客服，且退款成功状态为退货的退款成功114<br>初步判断有可能是平台自动审核后sql未更新主表，但审核人之类的字段又是平台自动审核（审核后的sql才可能更新的）<br>排查了自动审核worker的代码，发现没有问题，审核后的update主表的sql也是执行了的<br>进而又发现有许多多次提交退款的售后单，尤其是近期上线平台自动审核后<br>这时候判断有可能是因为多次请求同时提交，进而排查了提交审核退款的操作是否判断了售后单状态，发现判断没有问题<br>代码层面找寻了很久找不到原因，找DBA查看Mysql日志，发现问题根本</p>
+<h2 id="2、问题描述："><a href="#2、问题描述：" class="headerlink" title="2、问题描述："></a>2、问题描述：</h2><p>平台自动审核的update sql事务开始执行后，一分多钟后才commit<br>所以在这一分多钟时间内，售后单状态没有改变，客服可以继续进行审核为退款的操作，这时候多次提交的原因就被发现了<br>但是为什么售后单在平台自动审核为退款后，处理方式为退货，审核方为到家客服，且退款成功状态为退货的退款成功114呢？<br>因为：在update主表的sql还未commit的时候，退款成功MQ已经来了，worker接到退款成功MQ后，会去查主表，查到apply_deal仍是退货，根据退货这个处理方式，并提交update的sql来更新售后单状态为114<br>这时候，第一个update的请求commit了，将所有字段更新为了平台审核后的内容。然后第二个update的来了，把状态更新为114，把申请时已赋值了的审核方更新为了到家客服，处理方式更新为了退货，其他空的字段则由于mybatis的机制（不会更新对象里为空的字段），所以未更新。所以最终才会出现仅有三个字段是错误的，其他都是正确的现象</p>
+<h2 id="3-问题解决方法："><a href="#3-问题解决方法：" class="headerlink" title="3.问题解决方法："></a>3.问题解决方法：</h2><p>对于第一个问题，还未更新又收到退款成功MQ：<br>可在收到MQ后校验前置状态等方法来解决<br>也需要尽可能的加快mysql事务的执行时间</p>
+<ul>
+<li>把事务加在sql执行上，不加在大方法上</li>
+<li>将审核方法中的可异步请求均改为异步</li>
+<li>尽量缩短一个mysql事务的执行时间</li>
+</ul>
+<p>对于第二个问题，重复提交：</p>
+<ul>
+<li>前端做限制——已做</li>
+<li>对上次提交数据做缓存，校验提交是否重复——成本高</li>
+</ul>
 
       
     </div>
@@ -270,18 +266,9 @@ ajax的全称是AsynchronousJavascript+XML。异步传输+js+xml。所谓异步�
     
 <nav id="article-nav">
   
-    <a href="/2016/12/16/Cookie和Session/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          Cookie和Session
-        
-      </div>
-    </a>
   
-  
-    <a href="/2016/12/09/hellowHexo/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">hellowHexo</div>
+    <a href="/2016/12/16/Cookie和Session/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Cookie和Session</div>
       <strong class="article-nav-caption">></strong>
     </a>
   

@@ -97,6 +97,8 @@
 				        
 							<li><a href="/tags/前端/">前端</a></li>
 				        
+							<li><a href="/tags/测试/">测试</a></li>
+				        
 						</ul>
 					</nav>
 					<nav class="header-nav">
@@ -117,7 +119,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/前端/" style="font-size: 20px;">前端</a> <a href="/tags/随笔/" style="font-size: 10px;">随笔</a>
+						<a href="/tags/前端/" style="font-size: 20px;">前端</a> <a href="/tags/测试/" style="font-size: 10px;">测试</a> <a href="/tags/随笔/" style="font-size: 10px;">随笔</a>
 					</div>
 				</section>
 				
@@ -175,6 +177,8 @@
 		        
 					<li><a href="/tags/前端/">前端</a></li>
 		        
+					<li><a href="/tags/测试/">测试</a></li>
+		        
 		        <div class="clearfix"></div>
 				</ul>
 			</nav>
@@ -196,6 +200,76 @@
 </nav>
 
       <div class="body-wrap">
+  
+    <article id="post-一个棘手问题的解决" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/01/20/一个棘手问题的解决/" class="article-date">
+  	<time datetime="2017-01-20T02:35:13.000Z" itemprop="datePublished">2017-01-20</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/01/20/一个棘手问题的解决/">一个棘手问题的解决</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>今天遇到一个棘手的问题</p>
+<h2 id="1、问题背景："><a href="#1、问题背景：" class="headerlink" title="1、问题背景："></a>1、问题背景：</h2><p>首先发现，很多售后单在平台自动审核为退款后，处理方式为退货，审核方为到家客服，且退款成功状态为退货的退款成功114<br>初步判断有可能是平台自动审核后sql未更新主表，但审核人之类的字段又是平台自动审核（审核后的sql才可能更新的）<br>排查了自动审核worker的代码，发现没有问题，审核后的update主表的sql也是执行了的<br>进而又发现有许多多次提交退款的售后单，尤其是近期上线平台自动审核后<br>这时候判断有可能是因为多次请求同时提交，进而排查了提交审核退款的操作是否判断了售后单状态，发现判断没有问题<br>代码层面找寻了很久找不到原因，找DBA查看Mysql日志，发现问题根本</p>
+<h2 id="2、问题描述："><a href="#2、问题描述：" class="headerlink" title="2、问题描述："></a>2、问题描述：</h2><p>平台自动审核的update sql事务开始执行后，一分多钟后才commit<br>所以在这一分多钟时间内，售后单状态没有改变，客服可以继续进行审核为退款的操作，这时候多次提交的原因就被发现了<br>但是为什么售后单在平台自动审核为退款后，处理方式为退货，审核方为到家客服，且退款成功状态为退货的退款成功114呢？<br>因为：在update主表的sql还未commit的时候，退款成功MQ已经来了，worker接到退款成功MQ后，会去查主表，查到apply_deal仍是退货，根据退货这个处理方式，并提交update的sql来更新售后单状态为114<br>这时候，第一个update的请求commit了，将所有字段更新为了平台审核后的内容。然后第二个update的来了，把状态更新为114，把申请时已赋值了的审核方更新为了到家客服，处理方式更新为了退货，其他空的字段则由于mybatis的机制（不会更新对象里为空的字段），所以未更新。所以最终才会出现仅有三个字段是错误的，其他都是正确的现象</p>
+<h2 id="3-问题解决方法："><a href="#3-问题解决方法：" class="headerlink" title="3.问题解决方法："></a>3.问题解决方法：</h2><p>对于第一个问题，还未更新又收到退款成功MQ：<br>可在收到MQ后校验前置状态等方法来解决<br>也需要尽可能的加快mysql事务的执行时间</p>
+<ul>
+<li>把事务加在sql执行上，不加在大方法上</li>
+<li>将审核方法中的可异步请求均改为异步</li>
+<li>尽量缩短一个mysql事务的执行时间</li>
+</ul>
+<p>对于第二个问题，重复提交：</p>
+<ul>
+<li>前端做限制——已做</li>
+<li>对上次提交数据做缓存，校验提交是否重复——成本高</li>
+</ul>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/测试/">测试</a></li></ul>
+	</div>
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
   
     <article id="post-Cookie和Session" class="article article-type-post" itemscope itemprop="blogPost">
   
@@ -460,7 +534,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2016 Isaac Lee
+    		&copy; 2017 Isaac Lee
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
