@@ -229,9 +229,11 @@
       
         <h2 id="SQL三张表问题"><a href="#SQL三张表问题" class="headerlink" title="SQL三张表问题"></a>SQL三张表问题</h2><p>今天遇到一个sql问题，暴露了自己平时只会写简单sql的能力。。ORZ<br>现记录在此，今后还是应该加强sql能力</p>
 <p>学生表S        id（学号） name age<br>科目表C       id（科目号）  name<br>成绩表G       cid   sid  score<br>要求查询：名字姓张开头的学生的数学成绩，按年龄降序排序</p>
-<p>方法一：纯select<br>select S.name,G.score from S,C,G<br>where S.id=G.sid and G.cid=C.id<br>and S.name like ‘张%’ and C.name=’数学’ order by G.score desc</p>
-<p>方法二：使用join<br>select S.name,G.score<br>from S join G on S.id=G.sid<br>join C on C.id= G.cid<br>where  S.name like ‘张%’ and C.name=’数学’<br>order by G.score desc</p>
-<p>方法三：复合查询<br>select S.name,A.score<br>from S,A<br>where S.name like ‘张%’ and S.id in<br>(select G.sid from<br>G join C on G.cid=C.id<br>where C.name=’数学’ )A<br>order by A.score desc</p>
+<p>方法一：纯select(效率低)<br>select S.name,G.score from S,C,G<br>where S.id=G.sid and G.cid=C.id<br>and S.name like ‘张%’ and C.name=’数学’ order by G.score desc<br>会在S<em>C</em>G的列数总和中去执行查询，这种方法执行的是笛卡尔积，效率低</p>
+<p>方法二：使用子查询<br>select a.name,a.score,C.name<br>from (select S.name,S.age,G.cid,G.score from S,G where G.sid=S.id)a,C<br>where a.cid=C.id and a.name like ‘张%’ and C.name=’数学’<br>order by a.age desc<br>子查询会先去创建一张表a，然后外层再从a和C表中交叉查询出结果</p>
+<p>方法三：使用left join关联<br>select S.name,G.score<br>from S left join G on S.id=G.sid<br>left join C on C.id= G.cid<br>where  S.name like ‘张%’ and C.name=’数学’<br>order by G.score desc<br>关联相对子查询应该是效率更好的，因为不存在建表的过程</p>
+<p>方法四：复合查询<br>select S.name,A.score<br>from S,A<br>where S.name like ‘张%’ and S.id in<br>(select G.sid from<br>G left join C on G.cid=C.id<br>where C.name=’数学’ )A<br>order by A.score desc</p>
+<p>这些都只是一些写法而已，但是具体的效率还是要视情况而定，依然有许多不清楚的地方，比如在什么场合应该使用什么查询方式的选择问题，还有索引对于效率的影响问题都不太清晰。今后还是应该多加强复杂sql的学习。</p>
 
       
     </div>
