@@ -119,7 +119,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/前端/" style="font-size: 20px;">前端</a> <a href="/tags/测试/" style="font-size: 20px;">测试</a> <a href="/tags/随笔/" style="font-size: 10px;">随笔</a>
+						<a href="/tags/前端/" style="font-size: 15px;">前端</a> <a href="/tags/测试/" style="font-size: 20px;">测试</a> <a href="/tags/随笔/" style="font-size: 10px;">随笔</a>
 					</div>
 				</section>
 				
@@ -200,6 +200,72 @@
 </nav>
 
       <div class="body-wrap">
+  
+    <article id="post-spring-task-4-0-xsd文件加载方式问题" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/03/21/spring-task-4-0-xsd文件加载方式问题/" class="article-date">
+  	<time datetime="2017-03-21T02:50:50.000Z" itemprop="datePublished">2017-03-21</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/03/21/spring-task-4-0-xsd文件加载方式问题/">spring-task-4.0.xsd文件加载方式问题</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>关于这个错误的问题，今天坑了我一天，后面终于发现问题了，记录一下：<br>服务在测试环境部署好后一直报错，访问也报500internal error，但是开发同学使用公司的Jone平台可以正常部署，也不会报错</p>
+<p>出现这种问题后，我首先想到肯定是机器的原因，然后查了下xsd的加载方式</p>
+<p>xsd加载方式：<br><strong>spring在加载xsd文件时总是先试图在本地查找xsd文件(spring的jar包中已经包含了所有版本的xsd文件)，如果没有找到，才会转向去URL指定的路径下载。</strong>这是非常合理的做法，并不像看上去的那样，每次都是从站点下载的。</p>
+<p>然后排查了下测试机器的外网访问权限，可以ping通外网</p>
+<p>然后查到了网上一位老哥说的检查方式：</p>
+<p>1，查找是否有对应版本的xsd文件。spring 默认会从 本地jar中获取该文件，找不到，则联网下载。一般该文件都会在包里面<br>打开jar包，spring-beans-4.0.xsd 文件在org.springframework.beans.factory.xml 下可以找到【其他的自己找】。<br>注意坑爹的问题也出来了，命名我的jar包中有这个文件，但是每次都是从网络地址获取，网络不行经常会报错，找不到原因。。。</p>
+<p>2，查看该jar包下 META-INF 下 spring.schemas 文件中是否对应声明了，检查这儿的东西是不是和你的xml文件中一致。<br>然后搜，看到帖子说spring加载xsd的机制，是根据在 spring.schemas中声明的，也没怎么注意这个问题，然后一直找其他方面的问题，<br>最后没办法了，打开spring.schemas看看，结果tmd 这里面真没有4.0的声明信息，本以为最不会出错的地方，坑了我</p>
+<p><strong>总结：对于spring的xsd文件，在配置处最好不要带版本号，这样就会默认去找jar包里有的xsd文件，而不是找特定版本的</strong></p>
+<p>相关博客：<a href="http://blog.csdn.net/hengyunabc/article/details/22295749" target="_blank" rel="external">http://blog.csdn.net/hengyunabc/article/details/22295749</a></p>
+<p> 报错类似如下：<br>org.xml.sax.SAXParseException: schema_reference.4: Failed to read schema document ‘<a href="http://www.springframework.org/schema/beans/spring-beans-4.0.xsd" target="_blank" rel="external">http://www.springframework.org/schema/beans/spring-beans-4.0.xsd</a>‘, because 1) could not find the document; 2) the document could not be read; 3) the root element of the document is not <xsd:schema>.<br>    at com.sun.org.apache.xerces.internal.util.ErrorHandlerWrapper.createSAXParseException(ErrorHandlerWrapper.java:195)<br>    at com.sun.org.apache.xerces.internal.util.ErrorHandlerWrapper.warning(ErrorHandlerWrapper.java:96)<br>    at com.sun.org.apache.xerces.internal.impl.XMLErrorReporter.reportError(XMLErrorReporter.java:380)<br>    at com.sun.org.apache.xerces.internal.impl.XMLErrorReporter.reportError(XMLErrorReporter.java:318)<br>    at com.sun.org.apache.xerces.internal.impl.xs.traversers.XSDHandler.reportSchemaErr(XSDHandler.java:2541)<br>    at com.sun.org.apache.xerces.internal.impl.xs.traversers.XSDHandler.reportSchemaWarning(XSDHandler.java:2532)<br>    at com.sun.org.apache.xerces.internal.impl.xs.traversers.XSDHandler.getSchemaDocument(XSDHandler.java:1836)<br>    at com.sun.org.apache.xerces.internal.impl.xs.traversers.XSDHandler.parseSchema(XSDHandler.java:531)<br>    at com.sun.org.apache.xerces.internal.impl.xs.XMLSchemaLoader.loadSchema(XMLSchemaLoader.java:556)<br>    at com.sun.org.apache.xerces.internal.impl.xs.XMLSchemaValidator.findSchemaGrammar(XMLSchemaValidator.java:2443)<br>    at com.sun.org.apache.xerces.internal.impl.xs.XMLSchemaValidator.handleStartElement(XMLSchemaValidator.java:1788)<br>    at com.sun.org.apache.xerces.internal.impl.xs.XMLSchemaValidator.startElement(XMLSchemaValidator.java:711)<br>    at com.sun.org.apache.xerces.internal.impl.XMLNSDocumentScannerImpl.scanStartElement(XMLNSDocumentScannerImpl.java:400)<br>    at com.sun.org.apache.xerces.internal.impl.XMLNSDocumentScannerImpl$NSContentDriver.scanRootElementHook(XMLNSDocumentScannerImpl.java:626)<br>    at com.sun.org.apache.xerces.internal.impl.XMLDocumentFragmentScannerImpl$FragmentContentDriver.next(XMLDocumentFragmentScannerImpl.java:3104)<br>    at com.sun.org.apache.xerces.internal.impl.XMLDocumentScannerImpl$PrologDriver.next(XMLDocumentScannerImpl.java:921)<br>    at com.sun.org.apache.xerces.internal.impl.XMLDocumentScannerImpl.next(XMLDocumentScannerImpl.java:647)<br>    at com.sun.org.apache.xerces.internal.impl.XMLNSDocumentScannerImpl.next(XMLNSDocumentScannerImpl.java:140)<br>    at com.sun.org.apache.xerces.internal.impl.XMLDocumentFragmentScannerImpl.scanDocument(XMLDocumentFragmentScannerImpl.java:511)<br>    at com.sun.org.apache.xerces.internal.parsers.XML11Configuration.parse(XML11Configuration.java:808)<br>    at com.sun.org.apache.xerces.internal.parsers.XML11Configuration.parse(XML11Configuration.java:737)<br>    at com.sun.org.apache.xerces.internal.parsers.XMLParser.parse(XMLParser.java:119)<br>    at com.sun.org.apache.xerces.internal.parsers.DOMParser.parse(DOMParser.java:232)<br>    at com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderImpl.parse(DocumentBuilderImpl.java:284)<br>    at org.springframework.beans.factory.xml.DefaultDocumentLoader.loadDocument(DefaultDocumentLoader.java:76)<br>    at org.springframework.beans.factory.xml.XmlBeanDefinitionReader.doLoadBeanDefinitions(XmlBeanDefinitionReader.java:389)<br>    at org.springframework.beans.factory.xml.XmlBeanDefinitionReader.loadBeanDefinitions(XmlBeanDefinitionReader.java:335)<br>    at org.springframework.beans.factory.xml.XmlBeanDefinitionReader.loadBeanDefinitions(XmlBeanDefinitionReader.java:303)<br>    at org.springframework.beans.factory.support.AbstractBeanDefinitionReader.loadBeanDefinitions(AbstractBeanDefinitionReader.java:180)<br>    at org.springframework.beans.factory.support.AbstractBeanDefinitionReader.loadBeanDefinitions(AbstractBeanDefinitionReader.java:216)<br>    at org.springframework.beans.factory.support.AbstractBeanDefinitionReader.loadBeanDefinitions(AbstractBeanDefinitionReader.java:187)<br>    at org.springframework.web.context.support.XmlWebApplicationContext.loadBeanDefinitions(XmlWebApplicationContext.java:125)<br>    at org.springframework.web.context.support.XmlWebApplicationContext.loadBeanDefinitions(XmlWebApplicationContext.java:94)<br>    at org.springframework.context.support.AbstractRefreshableApplicationContext.refreshBeanFactory(AbstractRefreshableApplicationContext.java:130)<br>    at org.springframework.context.support.AbstractApplicationContext.obtainFreshBeanFactory(AbstractApplicationContext.java:551)<br>    at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:465)<br>    at org.springframework.web.servlet.FrameworkServlet.configureAndRefreshWebApplicationContext(FrameworkServlet.java:658)<br>    at org.springframework.web.servlet.FrameworkServlet.createWebApplicationContext(FrameworkServlet.java:606)<br>    at org.springframework.web.servlet.FrameworkServlet.createWebApplicationContext(FrameworkServlet.java:672)<br>    at org.springframework.web.servlet.FrameworkServlet.initWebApplicationContext(FrameworkServlet.java:525)<br>    at org.springframework.web.servlet.FrameworkServlet.initServletBean(FrameworkServlet.java:466)<br>    at org.springframework.web.servlet.HttpServletBean.init(HttpServletBean.java:136)<br>    at javax.servlet.GenericServlet.init(GenericServlet.java:160)<br>    at org.apache.catalina.core.StandardWrapper.initServlet(StandardWrapper.java:1280)<br>    at org.apache.catalina.core.StandardWrapper.loadServlet(StandardWrapper.java:1193)<br>    at org.apache.catalina.core.StandardWrapper.load(StandardWrapper.java:1088)<br>    at org.apache.catalina.core.StandardContext.loadOnStartup(StandardContext.java:5176)<br>    at org.apache.catalina.core.StandardContext.startInternal(StandardContext.java:5460)<br>    at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:150)<br>    at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1559)<br>    at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1549)<br>    at java.util.concurrent.FutureTask$Sync.innerRun(FutureTask.java:303)<br>    at java.util.concurrent.FutureTask.run(FutureTask.java:138)<br>    at java.util.concurrent.ThreadPoolExecutor$Worker.runTask(ThreadPoolExecutor.java:886)<br>    at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:908)<br>    at java.lang.Thread.run(Thread.java:662)<br>2013-12-26 17:22:06 org.springframework.web.servlet.FrameworkServlet initServletBean<br>严重: Context initialization failed<br>org.springframework.beans.factory.xml.XmlBeanDefinitionStoreException: Line 10 in XML document from URL [file:/D:/Server/apache-tomcat-7.0.47-mobile/webapps/MobileServer/WEB-INF/classes/spring/appconfig/springMVC.xml] is invalid; nested exception is org.xml.sax.SAXParseException: cvc-elt.1: Cannot find the declaration of element ‘beans’.<br>    at org.springframework.beans.factory.xml.XmlBeanDefinitionReader.doLoadBeanDefinitions(XmlBeanDefinitionReader.java:398)<br>    at org.springframework.beans.factory.xml.XmlBeanDefinitionReader.loadBeanDefinitions(XmlBeanDefinitionReader.java:335)<br>    at org.springframework.beans.factory.xml.XmlBeanDefinitionReader.loadBeanDefinitions(XmlBeanDefinitionReader.java:303)<br>    at org.springframework.beans.factory.support.AbstractBeanDefinitionReader.loadBeanDefinitions(AbstractBeanDefinitionReader.java:180)<br>    at org.springframework.beans.factory.support.AbstractBeanDefinitionReader.loadBeanDefinitions(AbstractBeanDefinitionReader.java:216)<br>    at org.springframework.beans.factory.support.AbstractBeanDefinitionReader.loadBeanDefinitions(AbstractBeanDefinitionReader.java:187)<br>    at org.springframework.web.context.support.XmlWebApplicationContext.loadBeanDefinitions(XmlWebApplicationContext.java:125)<br>    at org.springframework.web.context.support.XmlWebApplicationContext.loadBeanDefinitions(XmlWebApplicationContext.java:94)<br>    at org.springframework.context.support.AbstractRefreshableApplicationContext.refreshBeanFactory(AbstractRefreshableApplicationContext.java:130)<br>    at org.springframework.context.support.AbstractApplicationContext.obtainFreshBeanFactory(AbstractApplicationContext.java:551)<br>    at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:465)<br>    at org.springframework.web.servlet.FrameworkServlet.configureAndRefreshWebApplicationContext(FrameworkServlet.java:658)<br>    at org.springframework.web.servlet.FrameworkServlet.createWebApplicationContext(FrameworkServlet.java:606)<br>    at org.springframework.web.servlet.FrameworkServlet.createWebApplicationContext(FrameworkServlet.java:672)<br>    at org.springframework.web.servlet.FrameworkServlet.initWebApplicationContext(FrameworkServlet.java:525)<br>    at org.springframework.web.servlet.FrameworkServlet.initServletBean(FrameworkServlet.java:466)<br>    at org.springframework.web.servlet.HttpServletBean.init(HttpServletBean.java:136)<br>    at javax.servlet.GenericServlet.init(GenericServlet.java:160)<br>    at org.apache.catalina.core.StandardWrapper.initServlet(StandardWrapper.java:1280)<br>    at org.apache.catalina.core.StandardWrapper.loadServlet(StandardWrapper.java:1193)<br>    at org.apache.catalina.core.StandardWrapper.load(StandardWrapper.java:1088)<br>    at org.apache.catalina.core.StandardContext.loadOnStartup(StandardContext.java:5176)<br>    at org.apache.catalina.core.StandardContext.startInternal(StandardContext.java:5460)<br>    at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:150)<br>    at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1559)<br>    at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1549)<br>    at java.util.concurrent.FutureTask$Sync.innerRun(FutureTask.java:303)<br>    at java.util.concurrent.FutureTask.run(FutureTask.java:138)<br>    at java.util.concurrent.ThreadPoolExecutor$Worker.runTask(ThreadPoolExecutor.java:886)<br>    at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:908)<br>    at java.lang.Thread.run(Thread.java:662)<br>Caused by: org.xml.sax.SAXParseException: cvc-elt.1: Cannot find the declaration of element ‘beans’.<br>    at com.sun.org.apache.xerces.internal.util.ErrorHandlerWrapper.createSAXParseException(ErrorHandlerWrapper.java:195)<br>    at com.sun.org.apache.xerces.internal.util.ErrorHandlerWrapper.error(ErrorHandlerWrapper.java:131)<br>    at com.sun.org.apache.xerces.internal.impl.XMLErrorReporter.reportError(XMLErrorReporter.java:384)<br>    at com.sun.org.apache.xerces.internal.impl.XMLErrorReporter.reportError(XMLErrorReporter.java:318)<br>    at com.sun.org.apache.xerces.internal.impl.xs.XMLSchemaValidator.handleStartElement(XMLSchemaValidator.java:1922)<br>    at com.sun.org.apache.xerces.internal.impl.xs.XMLSchemaValidator.startElement(XMLSchemaValidator.java:711)<br>    at com.sun.org.apache.xerces.internal.impl.XMLNSDocumentScannerImpl.scanStartElement(XMLNSDocumentScannerImpl.java:400)<br>    at com.sun.org.apache.xerces.internal.impl.XMLNSDocumentScannerImpl$NSContentDriver.scanRootElementHook(XMLNSDocumentScannerImpl.java:626)<br>    at com.sun.org.apache.xerces.internal.impl.XMLDocumentFragmentScannerImpl$FragmentContentDriver.next(XMLDocumentFragmentScannerImpl.java:3104)<br>    at com.sun.org.apache.xerces.internal.impl.XMLDocumentScannerImpl$PrologDriver.next(XMLDocumentScannerImpl.java:921)<br>    at com.sun.org.apache.xerces.internal.impl.XMLDocumentScannerImpl.next(XMLDocumentScannerImpl.java:647)<br>    at com.sun.org.apache.xerces.internal.impl.XMLNSDocumentScannerImpl.next(XMLNSDocumentScannerImpl.java:140)<br>    at com.sun.org.apache.xerces.internal.impl.XMLDocumentFragmentScannerImpl.scanDocument(XMLDocumentFragmentScannerImpl.java:511)<br>    at com.sun.org.apache.xerces.internal.parsers.XML11Configuration.parse(XML11Configuration.java:808)<br>    at com.sun.org.apache.xerces.internal.parsers.XML11Configuration.parse(XML11Configuration.java:737)<br>    at com.sun.org.apache.xerces.internal.parsers.XMLParser.parse(XMLParser.java:119)<br>    at com.sun.org.apache.xerces.internal.parsers.DOMParser.parse(DOMParser.java:232)<br>    at com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderImpl.parse(DocumentBuilderImpl.java:284)<br>    at org.springframework.beans.factory.xml.DefaultDocumentLoader.loadDocument(DefaultDocumentLoader.java:76)<br>    at org.springframework.beans.factory.xml.XmlBeanDefinitionReader.doLoadBeanDefinitions(XmlBeanDefinitionReader.java:389)<br>    … 30 more<br>2013-12-26 17:22:06 org.apache.catalina.core.ApplicationContext log<br>严重: StandardWrapper.Throwable</xsd:schema></p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/测试/">测试</a></li></ul>
+	</div>
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
   
     <article id="post-sql三张表问题" class="article article-type-post" itemscope itemprop="blogPost">
   
@@ -530,67 +596,10 @@
 
 
   
-    <article id="post-hellowHexo" class="article article-type-post" itemscope itemprop="blogPost">
   
-    <div class="article-meta">
-      <a href="/2016/12/09/hellowHexo/" class="article-date">
-  	<time datetime="2016-12-09T03:05:47.000Z" itemprop="datePublished">2016-12-09</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/09/hellowHexo/">hellowHexo</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="HELLO-HEXO"><a href="#HELLO-HEXO" class="headerlink" title="HELLO HEXO"></a>HELLO HEXO</h1><blockquote>
-<p>不努力怎么幸运 —黎峻滔</p>
-</blockquote>
-<p>这是我的第一篇HEXO博客~<br>今后加油吧！</p>
-<p>==Isaac==</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/随笔/">随笔</a></li></ul>
-	</div>
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
+    <nav id="page-nav">
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+    </nav>
   
 </div>
       <footer id="footer">
