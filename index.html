@@ -201,6 +201,76 @@
 
       <div class="body-wrap">
   
+    <article id="post-jacoco代码覆盖率统计" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/05/03/jacoco代码覆盖率统计/" class="article-date">
+  	<time datetime="2017-05-03T09:26:57.000Z" itemprop="datePublished">2017-05-03</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/05/03/jacoco代码覆盖率统计/">jacoco代码覆盖率统计</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ol>
+<li>软件安装<br>前提在服务所在服务器<br>1.1    Apache Ant<br>下载linux安装包，apache-ant-1.9.9-bin.tar.gz<br>解压到：/export/apache-ant(没有自行创建)<br>配置环境变量：<br>export ANT_HOME=/export/apache-ant/apache-ant-1.9.9<br>export PATH=$PATH:$ANT_HOME/bin<br>最后ant –v,保证ant安装成功<br>1.2     Jacoco安装步骤<br>下载最新版本Jacoco压缩包（<a href="http://www.jacoco.org/jacoco/）" target="_blank" rel="external">http://www.jacoco.org/jacoco/）</a><br>解压并上传jacocoagent.jar和jacocoant.jar，如：/export/jacoco（若无则自行创建）<br>1.3  创建目录<br>/export/jacoco/result  —–存放扫描结果<br>/export/jacoco/report  ——存放最终报告<br>/export/jacoco/source  ——存放想要扫描的源代码文件（为了报告准确，尽量精准）<br>/export/jacoco/class   ——存放想要扫描的源代码对应的class文件</li>
+<li>配置tomcat（如若检测的是service或worker应用，则跳过此步）<br>2.1、进入tomcat目录，如：/export/servers/test/env_1/rcc/bin<br>2.2、关闭tomcat服务<br>2.3、修改 catalina.sh  的JAVA_OPTS配置(具体参数的意思请查看官方文档)<br>JAVA_OPTS=”$JAVA_OPTS -javaagent:/export/jacoco/jacocoagent.jar=includes=*,output=file,append=false,destfile=/export/jacoco/result/jacoco.exec”<br>2.4、启动服务 ./startup.sh<br>2.5、ps查看一下JAVA_OPTS是否有修改正确</li>
+</ol>
+<p>2.6、执行jenkins 自动化job，获取覆盖率数据<br>2.7、执行完以后关闭服务(kill 进程号ID，不要使用kill -9 )，到此在/export/jacoco/result/目录下，会有一个文件大小大于0以jacoco.exec文件</p>
+<ol>
+<li><p>配置service(worker类似)<br>3.1进入service目录，如：/export/data/tomcatRoot/test/Store_api/bin<br>3.2 关闭服务<br>3.3  修改start.sh脚本<br>3.4 启动服务，sh start.sh<br>3.5 ps查看一下JAVA_OPTS是否有修改正确<br>3.6 执行jenkins 自动化job，获取覆盖率数据<br>3.7 执行完以后关闭服务(kill 进程号ID，不要使用kill -9 )，到此在/export/jacoco/result/目录下，会有一个文件大小大于0以jacoco.exec文件<br>4．创建并配置build.xml<br>路径：/export/apache-ant/apache-ant-1.9.9/</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version=&quot;1.0&quot; ?&gt;</div><div class="line">&lt;project name=&quot;coverage&quot; xmlns:jacoco=&quot;antlib:org.jacoco.ant&quot; &gt;</div><div class="line">    &lt;!--Jacoco的安装路径--&gt;</div><div class="line">  &lt;property name=&quot;jacocoantPath&quot; value=&quot;/export/jacoco/jacocoant.jar&quot;/&gt;</div><div class="line">  &lt;!--最终生成.exec文件的路径，Jacoco就是根据这个文件生成最终的报告的--&gt;</div><div class="line">  &lt;property name=&quot;jacocoexecPath&quot; value=&quot;/export/jacoco/result/jacoco.exec&quot;/&gt;</div><div class="line">    &lt;!--生成覆盖率报告的路径--&gt;</div><div class="line">  &lt;property name=&quot;reportfolderPath&quot; value=&quot;/export/jacoco/report/&quot;/&gt;</div><div class="line">  &lt;!--远程tomcat服务的ip地址--&gt;</div><div class="line">  &lt;property name=&quot;server_ip&quot; value=&quot;127.0.0.1&quot;/&gt;</div><div class="line">  &lt;!--前面配置的远程tomcat服务打开的端口，要跟上面配置的一样--&gt;</div><div class="line">  &lt;property name=&quot;server_port&quot; value=&quot;8084&quot;/&gt;</div><div class="line">  &lt;!--源代码路径可以包含多个源代码--&gt;</div><div class="line">  &lt;property name=&quot;uasSrcpath&quot; value=&quot;/export/jacoco/source/&quot;/&gt;</div><div class="line">  &lt;!--.class文件路径可以包含多个--&gt;</div><div class="line">  &lt;property name=&quot;uasClasspath&quot; value=&quot;/export/jacoco/class/&quot;/&gt;</div><div class="line"></div><div class="line">  &lt;!--让ant知道去哪儿找Jacoco--&gt;</div><div class="line">  &lt;taskdef uri=&quot;antlib:org.jacoco.ant&quot; resource=&quot;org/jacoco/ant/antlib.xml&quot;&gt;</div><div class="line">      &lt;classpath path=&quot;$&#123;jacocoantPath&#125;&quot; /&gt;</div><div class="line">  &lt;/taskdef&gt;</div><div class="line"></div><div class="line">  &lt;!--dump任务:</div><div class="line">      根据前面配置的ip地址，和端口号，</div><div class="line">      访问目标tomcat服务，并生成.exec文件。--&gt;</div><div class="line"></div><div class="line">  &lt;target name=&quot;dump&quot;&gt;</div><div class="line">      &lt;jacoco:dump address=&quot;$&#123;server_ip&#125;&quot; reset=&quot;false&quot; destfile=&quot;$&#123;jacocoexecPath&#125;&quot; port=&quot;$&#123;server_port&#125;&quot; append=&quot;false&quot;/&gt;</div><div class="line">  &lt;/target&gt;</div><div class="line"></div><div class="line">  &lt;!--jacoco任务:</div><div class="line">      根据前面配置的源代码路径和.class文件路径，</div><div class="line">      根据dump后，生成的.exec文件，生成最终的html覆盖率报告。--&gt;</div><div class="line"></div><div class="line">  &lt;target name=&quot;report&quot;&gt;</div><div class="line">      &lt;delete dir=&quot;$&#123;reportfolderPath&#125;&quot; /&gt;</div><div class="line">      &lt;mkdir dir=&quot;$&#123;reportfolderPath&#125;&quot; /&gt;</div><div class="line"></div><div class="line">      &lt;jacoco:report&gt;</div><div class="line">          &lt;executiondata&gt;</div><div class="line">              &lt;file file=&quot;$&#123;jacocoexecPath&#125;&quot; /&gt;</div><div class="line">          &lt;/executiondata&gt;</div><div class="line"></div><div class="line">          &lt;structure name=&quot;JaCoCo Report&quot;&gt;</div><div class="line">              &lt;group name=&quot;Common related&quot;&gt;</div><div class="line">                  &lt;classfiles&gt;</div><div class="line">                      &lt;fileset dir=&quot;$&#123;uasClasspath&#125;&quot; /&gt;</div><div class="line">                  &lt;/classfiles&gt;</div><div class="line">                  &lt;sourcefiles encoding=&quot;gbk&quot;&gt;</div><div class="line">                      &lt;fileset dir=&quot;$&#123;uasSrcpath&#125;&quot; /&gt;</div><div class="line">                  &lt;/sourcefiles&gt;</div><div class="line">              &lt;/group&gt;</div><div class="line">          &lt;/structure&gt;</div><div class="line"></div><div class="line">          &lt;html destdir=&quot;$&#123;reportfolderPath&#125;&quot; encoding=&quot;utf-8&quot; /&gt;</div><div class="line">      &lt;/jacoco:report&gt;</div><div class="line">  &lt;/target&gt;</div><div class="line">&lt;/project&gt;</div></pre></td></tr></table></figure>
+</li>
+<li><p>执行ant report</p>
+</li>
+<li>进入/export/jacoco/report，并将该目录下所有文件下载到本地，最后查看生成的报告</li>
+</ol>
+<p>另：目前的方式比较笨拙，需要人工操作的地方太多，后续会将整套集成一下，形成更好的解决方案</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/测试/">测试</a></li></ul>
+	</div>
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-spring-task-4-0-xsd文件加载方式问题" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -498,74 +568,6 @@
 </blockquote>
 <p>这样一来，用户就没法伪造信息了。一旦它更改了 cookie 中的信息，则服务器会发现 hash 校验的不一致。</p>
 <p>毕竟他不懂我们的 secret_string 是什么，而暴力破解哈希值的成本太高。</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li></ul>
-	</div>
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-ajax" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/12/09/ajax/" class="article-date">
-  	<time datetime="2016-12-09T07:18:25.000Z" itemprop="datePublished">2016-12-09</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/09/ajax/">Ajax</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="1、简介："><a href="#1、简介：" class="headerlink" title="1、简介："></a>1、简介：</h1><blockquote>
-<p>AJAX 是一种在无需重新加载整个网页的情况下，能够更新部分网页的技术。</p>
-</blockquote>
-<p>ajax的全称是AsynchronousJavascript+XML。<br>异步传输+js+xml。<br>所谓异步，在这里简单地解释就是：向服务器发送请求的时候，我们不必等待结果，而是可以同时做其他的事情，等到有了结果我们可以再来处理这个事。（当然，在其他语境下这个解释可能就不对了）<br>这个很重要，如果不是这样的话，我们点完按钮，页面就会死在那里，其他的数据请求不会往下走了。这样比等待刷新似乎更加讨厌。<br>（虽然提供异步通讯功能的组件默认情况下都是异步的，但它们也提供了同步选项，如果你好奇把那个选项改为false的话，你的页面就会死在那里）<br>xml只是一种数据格式，在这件事里并不重要，我们在更新一行字的时候理论上说不需要这个格式，但如果我们更新很多内容，那么格式化的数据可以使我们有条理地去实现更新。</p>
-<p>现在大部分人其实是用JSON这种格式来代替XML的，因为前者更加简洁，据说目前的解析速度也更快。多快好省，能省则省啊。</p>
-<p><strong>总结</strong>：只要是JS调用异步通讯组件并使用格式化的数据来更新web页面上的内容或操作过程，那么我们用的方法就可算是AJAX。</p>
-<h2 id="什么是-AJAX-？"><a href="#什么是-AJAX-？" class="headerlink" title="什么是 AJAX ？"></a>什么是 AJAX ？</h2><p>AJAX = 异步 JavaScript 和 XML。<br>AJAX 是一种用于创建快速动态网页的技术。<br>通过在后台与服务器进行少量数据交换，AJAX 可以使网页实现异步更新。这意味着可以在不重新加载整个网页的情况下，对网页的某部分进行更新。<br>传统的网页（不使用 AJAX）如果需要更新内容，必需重载整个网页面。<br>有很多使用 AJAX 的应用程序案例：新浪微博、Google 地图、开心网等等。</p>
-<h1 id="2、AJAX-创建-XMLHttpRequest-对象"><a href="#2、AJAX-创建-XMLHttpRequest-对象" class="headerlink" title="2、AJAX-创建 XMLHttpRequest 对象"></a>2、AJAX-创建 XMLHttpRequest 对象</h1><p>XMLHttpRequest 对象是AJAX的基础<br>所有现代浏览器均支持 XMLHttpRequest 对象（IE5 和 IE6 使用 ActiveXObject）。<br>XMLHttpRequest 用于在后台与服务器交换数据。这意味着可以在不重新加载整个网页的情况下，对网页的某部分进行更新。</p>
-<h1 id="3、AJAX-向服务器发送请求"><a href="#3、AJAX-向服务器发送请求" class="headerlink" title="3、AJAX - 向服务器发送请求"></a>3、AJAX - 向服务器发送请求</h1><p>XMLHttpRequest 对象用于和服务器交换数据。</p>
-<p>向服务器发送请求<br>如需将请求发送到服务器，我们使用 XMLHttpRequest 对象的 open() 和 send() 方法：<br>xmlhttp.open(“GET”,”test1.txt”,true);<br>xmlhttp.send();</p>
-<h2 id="GET-还是-POST？"><a href="#GET-还是-POST？" class="headerlink" title="GET 还是 POST？"></a>GET 还是 POST？</h2><p>与 POST 相比，GET 更简单也更快，并且在大部分情况下都能用。<br>然而，在以下情况中，请使用 POST 请求：<br>无法使用缓存文件（更新服务器上的文件或数据库）<br>向服务器发送大量数据（POST 没有数据量限制）<br>发送包含未知字符的用户输入时，POST 比 GET 更稳定也更可靠</p>
-<h2 id="例子1："><a href="#例子1：" class="headerlink" title="例子1："></a>例子1：</h2><p>AJAX与后台交互后，动态更新页面数据：<br>在回调函数里设置元素的属性，即可实现将服务器返回的内容动态展现到页面上<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">Ajax.Post(&quot;openOrgUpdate&quot;,data,function(result)&#123;</div><div class="line">var obj = JSON.parse(result);</div><div class="line">var msg = obj.msg;</div><div class="line">var orgCodes = obj.orgCodes;</div><div class="line">if(orgCodes.length &gt; 0)&#123;</div><div class="line">$(&quot;#orgCodes&quot;).text(orgCodes);</div><div class="line">$(&quot;#orgCodes&quot;).attr(&quot;value&quot;,orgCodes);</div></pre></td></tr></table></figure></p>
 
       
     </div>

@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>jacoco代码覆盖率统计 | ISSAC</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="软件安装前提在服务所在服务器1.1    Apache Ant下载linux安装包，apache-ant-1.9.9-bin.tar.gz解压到：/export/apache-ant(没有自行创建)配置环境变量：export ANT_HOME=/export/apache-ant/apache-ant-1.9.9export PATH=$PATH:$ANT_HOME/bin最后ant –v,保证">
+<meta property="og:type" content="article">
+<meta property="og:title" content="jacoco代码覆盖率统计">
+<meta property="og:url" content="http://yoursite.com/2017/05/03/jacoco代码覆盖率统计/index.html">
+<meta property="og:site_name" content="ISSAC">
+<meta property="og:description" content="软件安装前提在服务所在服务器1.1    Apache Ant下载linux安装包，apache-ant-1.9.9-bin.tar.gz解压到：/export/apache-ant(没有自行创建)配置环境变量：export ANT_HOME=/export/apache-ant/apache-ant-1.9.9export PATH=$PATH:$ANT_HOME/bin最后ant –v,保证">
+<meta property="og:updated_time" content="2017-05-03T09:29:16.261Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="jacoco代码覆盖率统计">
+<meta name="twitter:description" content="软件安装前提在服务所在服务器1.1    Apache Ant下载linux安装包，apache-ant-1.9.9-bin.tar.gz解压到：/export/apache-ant(没有自行创建)配置环境变量：export ANT_HOME=/export/apache-ant/apache-ant-1.9.9export PATH=$PATH:$ANT_HOME/bin最后ant –v,保证">
+  
+    <link rel="alternative" href="/atom.xml" title="ISSAC" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://sports.tom.com/uimg/2009/12/26/zhuyun/1261783506539_25057.jpg" class="js-avatar" style="width: 100%;height: 100%;opacity: 1;">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Isaac Lee</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">只是选择那些正确的事情是不行的 这一点我还是明白</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/tags/随笔/">随笔</a></li>
+				        
+							<li><a href="/tags/前端/">前端</a></li>
+				        
+							<li><a href="/tags/测试/">测试</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/issaclee001/issaclee001.github.io" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="http://weibo.com/u/1974610405" title="weibo">weibo</a>
+					        
+								<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/li-jun-tao-57" title="zhihu">zhihu</a>
+					        
+								<a class="mail" target="_blank" href="mailto:issac_lee@outlook.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/前端/" style="font-size: 15px;">前端</a> <a href="/tags/测试/" style="font-size: 20px;">测试</a> <a href="/tags/随笔/" style="font-size: 10px;">随笔</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://hexo.io">hexo</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">Isaac，BUPTER。做好该做的，查漏补缺。只要想，什么都不难。</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Isaac Lee</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://sports.tom.com/uimg/2009/12/26/zhuyun/1261783506539_25057.jpg" class="js-avatar" style="width: 100%;height: 100%;opacity: 1;">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Isaac Lee</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">只是选择那些正确的事情是不行的 这一点我还是明白</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/tags/随笔/">随笔</a></li>
+		        
+					<li><a href="/tags/前端/">前端</a></li>
+		        
+					<li><a href="/tags/测试/">测试</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/issaclee001/issaclee001.github.io" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/u/1974610405" title="weibo">weibo</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/li-jun-tao-57" title="zhihu">zhihu</a>
+			        
+						<a class="mail" target="_blank" href="mailto:issac_lee@outlook.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-jacoco代码覆盖率统计" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/05/03/jacoco代码覆盖率统计/" class="article-date">
+  	<time datetime="2017-05-03T09:26:57.000Z" itemprop="datePublished">2017-05-03</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      jacoco代码覆盖率统计
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/测试/">测试</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ol>
+<li>软件安装<br>前提在服务所在服务器<br>1.1    Apache Ant<br>下载linux安装包，apache-ant-1.9.9-bin.tar.gz<br>解压到：/export/apache-ant(没有自行创建)<br>配置环境变量：<br>export ANT_HOME=/export/apache-ant/apache-ant-1.9.9<br>export PATH=$PATH:$ANT_HOME/bin<br>最后ant –v,保证ant安装成功<br>1.2     Jacoco安装步骤<br>下载最新版本Jacoco压缩包（<a href="http://www.jacoco.org/jacoco/）" target="_blank" rel="external">http://www.jacoco.org/jacoco/）</a><br>解压并上传jacocoagent.jar和jacocoant.jar，如：/export/jacoco（若无则自行创建）<br>1.3  创建目录<br>/export/jacoco/result  —–存放扫描结果<br>/export/jacoco/report  ——存放最终报告<br>/export/jacoco/source  ——存放想要扫描的源代码文件（为了报告准确，尽量精准）<br>/export/jacoco/class   ——存放想要扫描的源代码对应的class文件</li>
+<li>配置tomcat（如若检测的是service或worker应用，则跳过此步）<br>2.1、进入tomcat目录，如：/export/servers/test/env_1/rcc/bin<br>2.2、关闭tomcat服务<br>2.3、修改 catalina.sh  的JAVA_OPTS配置(具体参数的意思请查看官方文档)<br>JAVA_OPTS=”$JAVA_OPTS -javaagent:/export/jacoco/jacocoagent.jar=includes=*,output=file,append=false,destfile=/export/jacoco/result/jacoco.exec”<br>2.4、启动服务 ./startup.sh<br>2.5、ps查看一下JAVA_OPTS是否有修改正确</li>
+</ol>
+<p>2.6、执行jenkins 自动化job，获取覆盖率数据<br>2.7、执行完以后关闭服务(kill 进程号ID，不要使用kill -9 )，到此在/export/jacoco/result/目录下，会有一个文件大小大于0以jacoco.exec文件</p>
+<ol>
+<li><p>配置service(worker类似)<br>3.1进入service目录，如：/export/data/tomcatRoot/test/Store_api/bin<br>3.2 关闭服务<br>3.3  修改start.sh脚本<br>3.4 启动服务，sh start.sh<br>3.5 ps查看一下JAVA_OPTS是否有修改正确<br>3.6 执行jenkins 自动化job，获取覆盖率数据<br>3.7 执行完以后关闭服务(kill 进程号ID，不要使用kill -9 )，到此在/export/jacoco/result/目录下，会有一个文件大小大于0以jacoco.exec文件<br>4．创建并配置build.xml<br>路径：/export/apache-ant/apache-ant-1.9.9/</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version=&quot;1.0&quot; ?&gt;</div><div class="line">&lt;project name=&quot;coverage&quot; xmlns:jacoco=&quot;antlib:org.jacoco.ant&quot; &gt;</div><div class="line">    &lt;!--Jacoco的安装路径--&gt;</div><div class="line">  &lt;property name=&quot;jacocoantPath&quot; value=&quot;/export/jacoco/jacocoant.jar&quot;/&gt;</div><div class="line">  &lt;!--最终生成.exec文件的路径，Jacoco就是根据这个文件生成最终的报告的--&gt;</div><div class="line">  &lt;property name=&quot;jacocoexecPath&quot; value=&quot;/export/jacoco/result/jacoco.exec&quot;/&gt;</div><div class="line">    &lt;!--生成覆盖率报告的路径--&gt;</div><div class="line">  &lt;property name=&quot;reportfolderPath&quot; value=&quot;/export/jacoco/report/&quot;/&gt;</div><div class="line">  &lt;!--远程tomcat服务的ip地址--&gt;</div><div class="line">  &lt;property name=&quot;server_ip&quot; value=&quot;127.0.0.1&quot;/&gt;</div><div class="line">  &lt;!--前面配置的远程tomcat服务打开的端口，要跟上面配置的一样--&gt;</div><div class="line">  &lt;property name=&quot;server_port&quot; value=&quot;8084&quot;/&gt;</div><div class="line">  &lt;!--源代码路径可以包含多个源代码--&gt;</div><div class="line">  &lt;property name=&quot;uasSrcpath&quot; value=&quot;/export/jacoco/source/&quot;/&gt;</div><div class="line">  &lt;!--.class文件路径可以包含多个--&gt;</div><div class="line">  &lt;property name=&quot;uasClasspath&quot; value=&quot;/export/jacoco/class/&quot;/&gt;</div><div class="line"></div><div class="line">  &lt;!--让ant知道去哪儿找Jacoco--&gt;</div><div class="line">  &lt;taskdef uri=&quot;antlib:org.jacoco.ant&quot; resource=&quot;org/jacoco/ant/antlib.xml&quot;&gt;</div><div class="line">      &lt;classpath path=&quot;$&#123;jacocoantPath&#125;&quot; /&gt;</div><div class="line">  &lt;/taskdef&gt;</div><div class="line"></div><div class="line">  &lt;!--dump任务:</div><div class="line">      根据前面配置的ip地址，和端口号，</div><div class="line">      访问目标tomcat服务，并生成.exec文件。--&gt;</div><div class="line"></div><div class="line">  &lt;target name=&quot;dump&quot;&gt;</div><div class="line">      &lt;jacoco:dump address=&quot;$&#123;server_ip&#125;&quot; reset=&quot;false&quot; destfile=&quot;$&#123;jacocoexecPath&#125;&quot; port=&quot;$&#123;server_port&#125;&quot; append=&quot;false&quot;/&gt;</div><div class="line">  &lt;/target&gt;</div><div class="line"></div><div class="line">  &lt;!--jacoco任务:</div><div class="line">      根据前面配置的源代码路径和.class文件路径，</div><div class="line">      根据dump后，生成的.exec文件，生成最终的html覆盖率报告。--&gt;</div><div class="line"></div><div class="line">  &lt;target name=&quot;report&quot;&gt;</div><div class="line">      &lt;delete dir=&quot;$&#123;reportfolderPath&#125;&quot; /&gt;</div><div class="line">      &lt;mkdir dir=&quot;$&#123;reportfolderPath&#125;&quot; /&gt;</div><div class="line"></div><div class="line">      &lt;jacoco:report&gt;</div><div class="line">          &lt;executiondata&gt;</div><div class="line">              &lt;file file=&quot;$&#123;jacocoexecPath&#125;&quot; /&gt;</div><div class="line">          &lt;/executiondata&gt;</div><div class="line"></div><div class="line">          &lt;structure name=&quot;JaCoCo Report&quot;&gt;</div><div class="line">              &lt;group name=&quot;Common related&quot;&gt;</div><div class="line">                  &lt;classfiles&gt;</div><div class="line">                      &lt;fileset dir=&quot;$&#123;uasClasspath&#125;&quot; /&gt;</div><div class="line">                  &lt;/classfiles&gt;</div><div class="line">                  &lt;sourcefiles encoding=&quot;gbk&quot;&gt;</div><div class="line">                      &lt;fileset dir=&quot;$&#123;uasSrcpath&#125;&quot; /&gt;</div><div class="line">                  &lt;/sourcefiles&gt;</div><div class="line">              &lt;/group&gt;</div><div class="line">          &lt;/structure&gt;</div><div class="line"></div><div class="line">          &lt;html destdir=&quot;$&#123;reportfolderPath&#125;&quot; encoding=&quot;utf-8&quot; /&gt;</div><div class="line">      &lt;/jacoco:report&gt;</div><div class="line">  &lt;/target&gt;</div><div class="line">&lt;/project&gt;</div></pre></td></tr></table></figure>
+</li>
+<li><p>执行ant report</p>
+</li>
+<li>进入/export/jacoco/report，并将该目录下所有文件下载到本地，最后查看生成的报告</li>
+</ol>
+<p>另：目前的方式比较笨拙，需要人工操作的地方太多，后续会将整套集成一下，形成更好的解决方案</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2017/03/21/spring-task-4-0-xsd文件加载方式问题/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">spring-task-4.0.xsd文件加载方式问题</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2017 Isaac Lee
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: false,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="//7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+  </div>
+</body>
+</html>
