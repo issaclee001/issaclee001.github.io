@@ -201,6 +201,116 @@
 
       <div class="body-wrap">
   
+    <article id="post-jacoco-onthefly配置流程" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/09/22/jacoco-onthefly配置流程/" class="article-date">
+  	<time datetime="2017-09-22T09:26:57.000Z" itemprop="datePublished">2017-09-22</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/22/jacoco-onthefly配置流程/">jacoco on-the-fly环境搭建</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="安装软件"><a href="#安装软件" class="headerlink" title="安装软件"></a>安装软件</h2><p>安装ant，安装jacoco：服务端 mkdir /apps，拷贝jacocoagent.jar到/apps。</p>
+<h2 id="修改tomcat配置"><a href="#修改tomcat配置" class="headerlink" title="修改tomcat配置"></a>修改tomcat配置</h2><p>在服务端进入 vi /export/Domains/应用/server1/bin/start.sh<br>在末尾添加-javaagent:/apps/jacocoagent.jar=includes=*,classdumpdir=/export/lijuntao/invoiceSoa.ka.jd.com/classes,append=false,output=tcpserver,port=10002,address=192.168.195.149</p>
+<h3 id="参数解释"><a href="#参数解释" class="headerlink" title="参数解释"></a>参数解释</h3><ul>
+<li>classdumpdir：存放jacoco自动取出的该应用的class文件</li>
+<li>append：指定jacoco每次dump的时候是追加还是覆盖，由于我们需要统计的是每次自动化测试的独立的覆盖率，所以这里我们设为false</li>
+<li>output:指定覆盖率统计结果输出方式，tcpserver就是按照配置的address和port输出到对应服务器</li>
+<li>port：需要一个空闲端口号</li>
+<li>address：IP地址，IP就是Tomcat服务器的机器的IP，至于是写<code>服务器IP</code>还是写<code>127.0.0.1</code>要看情况<ol>
+<li>如果是在Tomcat服务器上执行<code>ant dump</code>的话，就直接写<code>address=127.0.0.1</code></li>
+<li>如果执行<code>ant dump</code>不是在Tomcat服务器上执行的，就得写服务器IP（切记）</li>
+</ol>
+</li>
+</ul>
+<p>由于我们是在jenkins服务器上做dump，所以这里写服务器IP<br>（官方文档：<a href="http://www.eclemma.org/jacoco/trunk/doc/agent.html）" target="_blank" rel="external">http://www.eclemma.org/jacoco/trunk/doc/agent.html）</a></p>
+<h2 id="验证安装结果"><a href="#验证安装结果" class="headerlink" title="验证安装结果"></a>验证安装结果</h2><p>重启tomcat，ps -ef|grep 10002查看jacoco配置是否加入成功，成功后我们则继续下一步</p>
+<h2 id="对比所需的class和java文件的处理"><a href="#对比所需的class和java文件的处理" class="headerlink" title="对比所需的class和java文件的处理"></a>对比所需的class和java文件的处理</h2><ul>
+<li><p>利用jacoco自带的classdumpdir进行获取class<br>如果用jacoco自带的classdumpdir参数来获取class的话，会获取到这个进程存在期间用到的所有class文件，包括引用的外部jar包里的。定义： If a directory is specified for this parameter the JaCoCo agent dumps all class files it processes to the given location。但是外部jar我们不需要去关心覆盖率，所以不建议使用这种方式</p>
+</li>
+<li><p>把所需文件都拷贝出来放到一个独立的目录<br>如果自己拷贝代码里的class文件，我发现有些问题， 拷贝结果比workspace里的少一些。原因是项目下有名称相同的class文件，cp时被覆盖掉了，所以cp的方法不准确，所以也不推荐这种方式</p>
+</li>
+<li><p>配置sonar-project.properties<br>可以直接将sonar.java.binaries配置为项目根目录workspace，sonar会自动去遍历其下的所有子模块中的calss文件，推荐直接使用这种方式，简单明了</p>
+</li>
+<li><p>添加jacoco相关文件到项目<br>在22上项目中,比如：/export/job/jenkins_cdldj/jobs/man-crm.jd.com(yao-crm-web)/workspace<br>添加文件jacoco.sh/biuld.xml/sonar-project.properties<br>这几个文件需按照各个文件中的注释配置你的参数（不清楚的可以单独联系我）<br>sonar配置文件官方文档：<a href="https://docs.sonarqube.org/display/SONAR/Analysis+Parameters" target="_blank" rel="external">https://docs.sonarqube.org/display/SONAR/Analysis+Parameters</a></p>
+</li>
+</ul>
+<h2 id="配置jenkins持续集成方案"><a href="#配置jenkins持续集成方案" class="headerlink" title="配置jenkins持续集成方案"></a>配置jenkins持续集成方案</h2><ul>
+<li>pre-steps<br>由于需统计的是自动化测试的覆盖率，所以在执行用例前先dump一次，可以reset tomcat的覆盖率数据<br>此步可以在jenkins中配置pre steps来做</li>
+<li>执行自动化测试<br>这一步如果之前做过自动化测试的项目，那就直接保持不变即可</li>
+<li>post-steps<br>再次执行ant dump，导出本次自动化测试的覆盖率exec文件<br>此步可以在jenkins中配置post steps来做<br>建议直接使用shell脚本调用jacoco.sh来执行ant，因为post-steps之后可能会包含一些其他操作，集成到jacoco.sh中方便今后维护</li>
+</ul>
+<h2 id="覆盖率统计"><a href="#覆盖率统计" class="headerlink" title="覆盖率统计"></a>覆盖率统计</h2><p>根据exec文件和项目的class、java文件进行对比，统计覆盖率</p>
+<ul>
+<li><p>使用jacoco的mvn插件<br>使用shell脚本执行mvn sonar的命令得出覆盖率结果，mvn方式执行出的jenkinsjob的名称会是<groupid>:<artifactid><br>/usr/local/maven3/bin/mvn -f $path/pom.xml -e -B org.sonarsource.scanner.maven:sonar-maven-plugin:3.0.2:sonar -Dsonar.jacoco.itReportPath=$path/jacoco.exec -Dsonar.jacoco.reportPath=$path/jacoco.exec -Dsonar.host.url=<a href="http://192.168.179.22:9000" target="_blank" rel="external">http://192.168.179.22:9000</a></artifactid></groupid></p>
+</li>
+<li><p>使用sonar-scanner<br>直接使用jenkins的sonar插件进行统计，这个由于自动化测试没法调用接口，又不像mvn命令可以手动触发，所以还没调通<br>需要在post steps中配置sonar scanner，post-steps选择Execute SonarQube Scanner即可，将sonar-project.properties中的内容修改好后添加到Analysis properties配置中，JDK选择1.8，因为sonar 相关的东西对JDK要求高</p>
+</li>
+<li><p>手动导出报告<br>直接手动ant report导出html的报告，这种方法需要手动下载下来查看覆盖率，不够自动化，不建议使用</p>
+</li>
+<li><p>使用jacoco的jenkins插件<br>利用jenkins的jacoco插件配置好参数，进行查看，由于团队统一由sonar来管理代码质量和覆盖率，所以也不建议使用</p>
+</li>
+<li><p>使用jacoco的jenkins插件<br>利用jenkins的jacoco插件配置好参数，进行查看，由于团队统一由sonar来管理代码质量和覆盖率，所以也不建议使用</p>
+</li>
+</ul>
+<p>推荐使用1或2的方式，后面几种方式想了解的也可以联系我</p>
+<h2 id="踩过的坑"><a href="#踩过的坑" class="headerlink" title="踩过的坑"></a>踩过的坑</h2><ul>
+<li><p>坑1：<br>使用sonar scanner是否必须要求class和source目录保持和源代码一致？<br>扫描的目录是否必须要求结构和包名能对上？<br>不需要，sonar verision在2.1之前的才需要</p>
+</li>
+<li><p>坑2：<br>是否可以把需要统计的java和class文件拷贝出来进行扫描？<br>不合适，因为项目中总会存在不同路径下的同名文件，这样拷贝后就会覆盖掉一部分重复文件</p>
+</li>
+<li><p>坑3：<br>on-the-fly模式的jacoco会一直记录各种请求数据，如何保证统计的是本次自动化测试的请求，而不包含其他请求？<br>首先我们来看其他请求的定义，我认为包含两种<br>一是纵向的，上一次统计之后收到的所有请求都被错误统计，这个的解决方法是在运行自动化测试之前执行一次dump，dump后jacoco会自动reset JVM的统计数据<br>二是横向的，本次自动化测试期间收到的来自其他系统或是测试人员手工请求的数据，这种方法目前没有特别好的避免方法，经过调研，腾讯的做法是写了java代码通过反射去调用jacoco的reset方法来进行的数据清理，在每个用例前的setup中reset，在teardown的时候dump，一个用例一个exec文件，最后将所有exec文件merge形成最终的覆盖率统计文件。但我认为如果把每天跑自动化的时间设置在早上八点或是之前，就可以避免手工测试的影响， 这一步可以作为以后的优化方向，优先级较低</p>
+</li>
+<li><p>坑4：<br>sonar-project.properties里的projectname是否可以配置为中文？<br>网上大部分资料都说不可以。 后来自己尝试了一下，答案是可以写成中文的，但是要换一种方式，比如你想把项目名称命名为“测试”， 那么在这里就要写成“\u6d4b\u8bd5”，那么下面这个参数就应该这样写“sonar.projectName= \u6d4b\u8bd5”，说白了就是将中文转成Unicode。但是不建议这么使用，进来都用项目英文名就比较好了</p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/测试/">测试</a></li></ul>
+	</div>
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-test-new-computer" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -442,76 +552,6 @@
 <p>方法三：使用left join关联<br>select S.name,G.score<br>from S left join G on S.id=G.sid<br>left join C on C.id= G.cid<br>where  S.name like ‘张%’ and C.name=’数学’<br>order by G.score desc<br>关联相对子查询应该是效率更好的，因为不存在建表的过程</p>
 <p>方法四：复合查询<br>select S.name,A.score<br>from S,A<br>where S.name like ‘张%’ and S.id in<br>(select G.sid from<br>G left join C on G.cid=C.id<br>where C.name=’数学’ )A<br>order by A.score desc</p>
 <p>这些都只是一些写法而已，但是具体的效率还是要视情况而定，依然有许多不清楚的地方，比如在什么场合应该使用什么查询方式的选择问题，还有索引对于效率的影响问题都不太清晰。今后还是应该多加强复杂sql的学习。</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/测试/">测试</a></li></ul>
-	</div>
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-一个棘手问题的解决" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/01/20/一个棘手问题的解决/" class="article-date">
-  	<time datetime="2017-01-20T02:35:13.000Z" itemprop="datePublished">2017-01-20</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/01/20/一个棘手问题的解决/">一个棘手问题的解决</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>今天遇到一个棘手的问题</p>
-<h2 id="1、问题背景："><a href="#1、问题背景：" class="headerlink" title="1、问题背景："></a>1、问题背景：</h2><p>首先发现，很多售后单在平台自动审核为退款后，处理方式为退货，审核方为到家客服，且退款成功状态为退货的退款成功114<br>初步判断有可能是平台自动审核后sql未更新主表，但审核人之类的字段又是平台自动审核（审核后的sql才可能更新的）<br>排查了自动审核worker的代码，发现没有问题，审核后的update主表的sql也是执行了的<br>进而又发现有许多多次提交退款的售后单，尤其是近期上线平台自动审核后<br>这时候判断有可能是因为多次请求同时提交，进而排查了提交审核退款的操作是否判断了售后单状态，发现判断没有问题<br>代码层面找寻了很久找不到原因，找DBA查看Mysql日志，发现问题根本</p>
-<h2 id="2、问题描述："><a href="#2、问题描述：" class="headerlink" title="2、问题描述："></a>2、问题描述：</h2><p>平台自动审核的update sql事务开始执行后，一分多钟后才commit<br>所以在这一分多钟时间内，售后单状态没有改变，客服可以继续进行审核为退款的操作，这时候多次提交的原因就被发现了<br>但是为什么售后单在平台自动审核为退款后，处理方式为退货，审核方为到家客服，且退款成功状态为退货的退款成功114呢？<br>因为：在update主表的sql还未commit的时候，退款成功MQ已经来了，worker接到退款成功MQ后，会去查主表，查到apply_deal仍是退货，根据退货这个处理方式，并提交update的sql来更新售后单状态为114<br>这时候，第一个update的请求commit了，将所有字段更新为了平台审核后的内容。然后第二个update的来了，把状态更新为114，把申请时已赋值了的审核方更新为了到家客服，处理方式更新为了退货，其他空的字段则由于mybatis的机制（不会更新对象里为空的字段），所以未更新。所以最终才会出现仅有三个字段是错误的，其他都是正确的现象</p>
-<h2 id="3-问题解决方法："><a href="#3-问题解决方法：" class="headerlink" title="3.问题解决方法："></a>3.问题解决方法：</h2><p>对于第一个问题，还未更新又收到退款成功MQ：<br>可在收到MQ后校验前置状态等方法来解决<br>也需要尽可能的加快mysql事务的执行时间</p>
-<ul>
-<li>把事务加在sql执行上，不加在大方法上</li>
-<li>将审核方法中的可异步请求均改为异步</li>
-<li>尽量缩短一个mysql事务的执行时间</li>
-</ul>
-<p>对于第二个问题，重复提交：</p>
-<ul>
-<li>前端做限制——已做</li>
-<li>对上次提交数据做缓存，校验提交是否重复——成本高</li>
-</ul>
 
       
     </div>

@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>jacoco on-the-fly环境搭建 | ISSAC</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="安装软件安装ant，安装jacoco：服务端 mkdir /apps，拷贝jacocoagent.jar到/apps。
+修改tomcat配置在服务端进入 vi /export/Domains/应用/server1/bin/start.sh在末尾添加-javaagent:/apps/jacocoagent.jar=includes=*,classdumpdir=/export/lijuntao/in">
+<meta property="og:type" content="article">
+<meta property="og:title" content="jacoco on-the-fly环境搭建">
+<meta property="og:url" content="http://yoursite.com/2017/09/22/jacoco-onthefly配置流程/index.html">
+<meta property="og:site_name" content="ISSAC">
+<meta property="og:description" content="安装软件安装ant，安装jacoco：服务端 mkdir /apps，拷贝jacocoagent.jar到/apps。
+修改tomcat配置在服务端进入 vi /export/Domains/应用/server1/bin/start.sh在末尾添加-javaagent:/apps/jacocoagent.jar=includes=*,classdumpdir=/export/lijuntao/in">
+<meta property="og:updated_time" content="2017-09-22T07:57:17.266Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="jacoco on-the-fly环境搭建">
+<meta name="twitter:description" content="安装软件安装ant，安装jacoco：服务端 mkdir /apps，拷贝jacocoagent.jar到/apps。
+修改tomcat配置在服务端进入 vi /export/Domains/应用/server1/bin/start.sh在末尾添加-javaagent:/apps/jacocoagent.jar=includes=*,classdumpdir=/export/lijuntao/in">
+  
+    <link rel="alternative" href="/atom.xml" title="ISSAC" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://sports.tom.com/uimg/2009/12/26/zhuyun/1261783506539_25057.jpg" class="js-avatar" style="width: 100%;height: 100%;opacity: 1;">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Isaac Lee</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">只是选择那些正确的事情是不行的 这一点我还是明白</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/tags/随笔/">随笔</a></li>
+				        
+							<li><a href="/tags/前端/">前端</a></li>
+				        
+							<li><a href="/tags/测试/">测试</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/issaclee001/issaclee001.github.io" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="http://weibo.com/u/1974610405" title="weibo">weibo</a>
+					        
+								<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/li-jun-tao-57" title="zhihu">zhihu</a>
+					        
+								<a class="mail" target="_blank" href="mailto:issac_lee@outlook.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/前端/" style="font-size: 10px;">前端</a> <a href="/tags/测试/" style="font-size: 20px;">测试</a> <a href="/tags/随笔/" style="font-size: 10px;">随笔</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://hexo.io">hexo</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">Isaac，BUPTER。做好该做的，查漏补缺。只要想，什么都不难。</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Isaac Lee</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://sports.tom.com/uimg/2009/12/26/zhuyun/1261783506539_25057.jpg" class="js-avatar" style="width: 100%;height: 100%;opacity: 1;">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Isaac Lee</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">只是选择那些正确的事情是不行的 这一点我还是明白</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/tags/随笔/">随笔</a></li>
+		        
+					<li><a href="/tags/前端/">前端</a></li>
+		        
+					<li><a href="/tags/测试/">测试</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/issaclee001/issaclee001.github.io" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/u/1974610405" title="weibo">weibo</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/li-jun-tao-57" title="zhihu">zhihu</a>
+			        
+						<a class="mail" target="_blank" href="mailto:issac_lee@outlook.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-jacoco-onthefly配置流程" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/09/22/jacoco-onthefly配置流程/" class="article-date">
+  	<time datetime="2017-09-22T09:26:57.000Z" itemprop="datePublished">2017-09-22</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      jacoco on-the-fly环境搭建
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/测试/">测试</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="安装软件"><a href="#安装软件" class="headerlink" title="安装软件"></a>安装软件</h2><p>安装ant，安装jacoco：服务端 mkdir /apps，拷贝jacocoagent.jar到/apps。</p>
+<h2 id="修改tomcat配置"><a href="#修改tomcat配置" class="headerlink" title="修改tomcat配置"></a>修改tomcat配置</h2><p>在服务端进入 vi /export/Domains/应用/server1/bin/start.sh<br>在末尾添加-javaagent:/apps/jacocoagent.jar=includes=*,classdumpdir=/export/lijuntao/invoiceSoa.ka.jd.com/classes,append=false,output=tcpserver,port=10002,address=192.168.195.149</p>
+<h3 id="参数解释"><a href="#参数解释" class="headerlink" title="参数解释"></a>参数解释</h3><ul>
+<li>classdumpdir：存放jacoco自动取出的该应用的class文件</li>
+<li>append：指定jacoco每次dump的时候是追加还是覆盖，由于我们需要统计的是每次自动化测试的独立的覆盖率，所以这里我们设为false</li>
+<li>output:指定覆盖率统计结果输出方式，tcpserver就是按照配置的address和port输出到对应服务器</li>
+<li>port：需要一个空闲端口号</li>
+<li>address：IP地址，IP就是Tomcat服务器的机器的IP，至于是写<code>服务器IP</code>还是写<code>127.0.0.1</code>要看情况<ol>
+<li>如果是在Tomcat服务器上执行<code>ant dump</code>的话，就直接写<code>address=127.0.0.1</code></li>
+<li>如果执行<code>ant dump</code>不是在Tomcat服务器上执行的，就得写服务器IP（切记）</li>
+</ol>
+</li>
+</ul>
+<p>由于我们是在jenkins服务器上做dump，所以这里写服务器IP<br>（官方文档：<a href="http://www.eclemma.org/jacoco/trunk/doc/agent.html）" target="_blank" rel="external">http://www.eclemma.org/jacoco/trunk/doc/agent.html）</a></p>
+<h2 id="验证安装结果"><a href="#验证安装结果" class="headerlink" title="验证安装结果"></a>验证安装结果</h2><p>重启tomcat，ps -ef|grep 10002查看jacoco配置是否加入成功，成功后我们则继续下一步</p>
+<h2 id="对比所需的class和java文件的处理"><a href="#对比所需的class和java文件的处理" class="headerlink" title="对比所需的class和java文件的处理"></a>对比所需的class和java文件的处理</h2><ul>
+<li><p>利用jacoco自带的classdumpdir进行获取class<br>如果用jacoco自带的classdumpdir参数来获取class的话，会获取到这个进程存在期间用到的所有class文件，包括引用的外部jar包里的。定义： If a directory is specified for this parameter the JaCoCo agent dumps all class files it processes to the given location。但是外部jar我们不需要去关心覆盖率，所以不建议使用这种方式</p>
+</li>
+<li><p>把所需文件都拷贝出来放到一个独立的目录<br>如果自己拷贝代码里的class文件，我发现有些问题， 拷贝结果比workspace里的少一些。原因是项目下有名称相同的class文件，cp时被覆盖掉了，所以cp的方法不准确，所以也不推荐这种方式</p>
+</li>
+<li><p>配置sonar-project.properties<br>可以直接将sonar.java.binaries配置为项目根目录workspace，sonar会自动去遍历其下的所有子模块中的calss文件，推荐直接使用这种方式，简单明了</p>
+</li>
+<li><p>添加jacoco相关文件到项目<br>在22上项目中,比如：/export/job/jenkins_cdldj/jobs/man-crm.jd.com(yao-crm-web)/workspace<br>添加文件jacoco.sh/biuld.xml/sonar-project.properties<br>这几个文件需按照各个文件中的注释配置你的参数（不清楚的可以单独联系我）<br>sonar配置文件官方文档：<a href="https://docs.sonarqube.org/display/SONAR/Analysis+Parameters" target="_blank" rel="external">https://docs.sonarqube.org/display/SONAR/Analysis+Parameters</a></p>
+</li>
+</ul>
+<h2 id="配置jenkins持续集成方案"><a href="#配置jenkins持续集成方案" class="headerlink" title="配置jenkins持续集成方案"></a>配置jenkins持续集成方案</h2><ul>
+<li>pre-steps<br>由于需统计的是自动化测试的覆盖率，所以在执行用例前先dump一次，可以reset tomcat的覆盖率数据<br>此步可以在jenkins中配置pre steps来做</li>
+<li>执行自动化测试<br>这一步如果之前做过自动化测试的项目，那就直接保持不变即可</li>
+<li>post-steps<br>再次执行ant dump，导出本次自动化测试的覆盖率exec文件<br>此步可以在jenkins中配置post steps来做<br>建议直接使用shell脚本调用jacoco.sh来执行ant，因为post-steps之后可能会包含一些其他操作，集成到jacoco.sh中方便今后维护</li>
+</ul>
+<h2 id="覆盖率统计"><a href="#覆盖率统计" class="headerlink" title="覆盖率统计"></a>覆盖率统计</h2><p>根据exec文件和项目的class、java文件进行对比，统计覆盖率</p>
+<ul>
+<li><p>使用jacoco的mvn插件<br>使用shell脚本执行mvn sonar的命令得出覆盖率结果，mvn方式执行出的jenkinsjob的名称会是<groupid>:<artifactid><br>/usr/local/maven3/bin/mvn -f $path/pom.xml -e -B org.sonarsource.scanner.maven:sonar-maven-plugin:3.0.2:sonar -Dsonar.jacoco.itReportPath=$path/jacoco.exec -Dsonar.jacoco.reportPath=$path/jacoco.exec -Dsonar.host.url=<a href="http://192.168.179.22:9000" target="_blank" rel="external">http://192.168.179.22:9000</a></artifactid></groupid></p>
+</li>
+<li><p>使用sonar-scanner<br>直接使用jenkins的sonar插件进行统计，这个由于自动化测试没法调用接口，又不像mvn命令可以手动触发，所以还没调通<br>需要在post steps中配置sonar scanner，post-steps选择Execute SonarQube Scanner即可，将sonar-project.properties中的内容修改好后添加到Analysis properties配置中，JDK选择1.8，因为sonar 相关的东西对JDK要求高</p>
+</li>
+<li><p>手动导出报告<br>直接手动ant report导出html的报告，这种方法需要手动下载下来查看覆盖率，不够自动化，不建议使用</p>
+</li>
+<li><p>使用jacoco的jenkins插件<br>利用jenkins的jacoco插件配置好参数，进行查看，由于团队统一由sonar来管理代码质量和覆盖率，所以也不建议使用</p>
+</li>
+<li><p>使用jacoco的jenkins插件<br>利用jenkins的jacoco插件配置好参数，进行查看，由于团队统一由sonar来管理代码质量和覆盖率，所以也不建议使用</p>
+</li>
+</ul>
+<p>推荐使用1或2的方式，后面几种方式想了解的也可以联系我</p>
+<h2 id="踩过的坑"><a href="#踩过的坑" class="headerlink" title="踩过的坑"></a>踩过的坑</h2><ul>
+<li><p>坑1：<br>使用sonar scanner是否必须要求class和source目录保持和源代码一致？<br>扫描的目录是否必须要求结构和包名能对上？<br>不需要，sonar verision在2.1之前的才需要</p>
+</li>
+<li><p>坑2：<br>是否可以把需要统计的java和class文件拷贝出来进行扫描？<br>不合适，因为项目中总会存在不同路径下的同名文件，这样拷贝后就会覆盖掉一部分重复文件</p>
+</li>
+<li><p>坑3：<br>on-the-fly模式的jacoco会一直记录各种请求数据，如何保证统计的是本次自动化测试的请求，而不包含其他请求？<br>首先我们来看其他请求的定义，我认为包含两种<br>一是纵向的，上一次统计之后收到的所有请求都被错误统计，这个的解决方法是在运行自动化测试之前执行一次dump，dump后jacoco会自动reset JVM的统计数据<br>二是横向的，本次自动化测试期间收到的来自其他系统或是测试人员手工请求的数据，这种方法目前没有特别好的避免方法，经过调研，腾讯的做法是写了java代码通过反射去调用jacoco的reset方法来进行的数据清理，在每个用例前的setup中reset，在teardown的时候dump，一个用例一个exec文件，最后将所有exec文件merge形成最终的覆盖率统计文件。但我认为如果把每天跑自动化的时间设置在早上八点或是之前，就可以避免手工测试的影响， 这一步可以作为以后的优化方向，优先级较低</p>
+</li>
+<li><p>坑4：<br>sonar-project.properties里的projectname是否可以配置为中文？<br>网上大部分资料都说不可以。 后来自己尝试了一下，答案是可以写成中文的，但是要换一种方式，比如你想把项目名称命名为“测试”， 那么在这里就要写成“\u6d4b\u8bd5”，那么下面这个参数就应该这样写“sonar.projectName= \u6d4b\u8bd5”，说白了就是将中文转成Unicode。但是不建议这么使用，进来都用项目英文名就比较好了</p>
+</li>
+</ul>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2017/09/08/test-new-computer/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">test new computer</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2017 Isaac Lee
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: false,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="//7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+  </div>
+</body>
+</html>
